@@ -15,13 +15,8 @@ conn = pg2.connect(dbname=os.getenv('DBNAME'),
 
 cur = conn.cursor()
 
-cur.execute('''
-        SELECT person.firstname, person.lastname, employee.jobtitle, emailaddress.emailaddress, employee.vacationhours
-        FROM humanresources.employee
-        JOIN person.person using(businessentityid)
-        JOIN person.emailaddress using(businessentityid)
-        WHERE employee.vacationhours > %(vh)s
-         ;''', {'vh':vh})
+cur.execute()
+       
 for line in cur:
     print(line)
 
