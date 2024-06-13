@@ -1,3 +1,6 @@
+# data files
+data/AdventureWorks.tar
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
