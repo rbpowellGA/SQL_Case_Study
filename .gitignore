@@ -1,5 +1,5 @@
 # data files
-data/AdventureWorks.tar
+data/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
