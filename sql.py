@@ -3,18 +3,7 @@ import pandas as pd
 from datetime import datetime
 import os
 from dotenv import load_dotenv
-
-load_dotenv()
-
-# Establishes connection with database
-conn = pg2.connect(dbname=os.getenv('DBNAME'),
-                   user=os.getenv('ADV_WORKS_USER'),
-                   password = os.getenv('PASSWORD'),
-                   host = os.getenv('HOST'),
-                   port = os.getenv('PORT'))
-
-# Creates a var for reference to anything pulled from database
-cur = conn.cursor()
+import argparse
 
 '''
 Parameters:
@@ -47,6 +36,67 @@ def convert_sql_to_xlsx(sql_in, xlsx_out, xlsx_name=None):
     
     df.to_excel(f'{xlsx_out}/{xlsx_name}.xlsx', index=False)
 
+"""
+Runs each query in sql_in_dir directory,
+    stores each result as .xlsx in xlsx_out_dir.
 
-convert_sql_to_xlsx('sql_queries/vacation_hour.sql','data')
-conn.close()
+Parameters:
+    sql_in_dir (str): relative filepath to directory
+                        containing .sql files
+    xlsx_out_dir (str): relative filepath to directory
+                        where .xlsx will be stored
+                        files named same as sql_in
+"""
+
+def convert_directory_of_queries(sql_in_dir, xlsx_out_dir):
+
+    for file in os.listdir(sql_in_dir):
+        f = f'{sql_in_dir}/{file}'
+        convert_sql_to_xlsx(f, xlsx_out_dir)
+
+"""
+Converts directory of sql queries to xlsx from CLI.
+"""
+
+def convert_sql_to_xlsx_from_cli():
+    parser = argparse.ArgumentParser(description="Converts directory of sql queries to xlsx from CLI.")
+
+    # Specifies options that conflict with one another, in this case verbose and quiet
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("-v", "--verbose", action="store_true", help="Option for if you know what will happen already")
+    group.add_argument("-q", "--quiet", action="store_true", help="Option for more explicit answer")
+
+    # Our two variable arguements
+    parser.add_argument("sql_in_dir", type=str, help="The directory to pull sql files from")  # Arguements
+    parser.add_argument("xlsx_out_dir", type=str, help="The directory to store xlsx files in")
+
+    # Parses the arguements given into variables and calls our function
+    args = parser.parse_args()  
+    convert_directory_of_queries(args.sql_in_dir, args.xlsx_out_dir)
+
+    # Checking for our verbose and quiet flags
+    if args.quiet:  # If quiet flag is present, give the answer only
+        print("Data saved")
+    elif args.verbose:  # If verbose is present, give more descript answer
+        print(f"{args.sql_in_dir} sql files have been saved as .xlsx in the directory {args.xlsx_out_dir}")
+    else:  # Default format for answering
+        print(f"{args.sql_in_dir} saved to {args.xlsx_out_dir}")
+
+# Runs cli if running the file directly
+if __name__ == '__main__':
+    load_dotenv()
+
+    # Establishes connection with database
+    conn = pg2.connect(dbname=os.getenv('DBNAME'),
+                    user=os.getenv('ADV_WORKS_USER'),
+                    password = os.getenv('PASSWORD'),
+                    host = os.getenv('HOST'),
+                    port = os.getenv('PORT'))
+
+    # Creates a var for reference to anything pulled from database
+    cur = conn.cursor()
+    #Listens for CLI inputs
+    convert_sql_to_xlsx_from_cli()
+    #Closes the db connection
+    conn.close()
+    pass
