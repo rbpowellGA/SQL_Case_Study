@@ -67,8 +67,8 @@ def convert_sql_to_xlsx_from_cli():
     group.add_argument("-q", "--quiet", action="store_true", help="Option for more explicit answer")
 
     # Our two variable arguements
-    parser.add_argument("sql_in_dir", type=str, help="The directory to pull sql files from")  # Arguements
-    parser.add_argument("xlsx_out_dir", type=str, help="The directory to store xlsx files in")
+    parser.add_argument("-s", type=str, help="The directory to pull sql files from")  # Arguements
+    parser.add_argument("-x", type=str, help="The directory to store xlsx files in")
 
     # Parses the arguements given into variables and calls our function
     args = parser.parse_args()  
