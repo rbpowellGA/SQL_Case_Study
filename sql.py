@@ -1,23 +1,8 @@
-'''def convert_sql_to_xlsx(sql_in, xlsx_out, xlsx_name=None):
-    """
-    Runs query in given .sql file, stores result as .xlsx file.
-
-    Parameters:
-        sql_in (str): relative filepath to .sql file
-        xlsx_out (str): relative filepath to directory where .xlsx will be stored
-        xlsx_name (str or None): If not None, file named xlsx_name.xlsx
-                                 If None, file named same as sql_in
-
-    Returns:
-        None
-    """
-    pass'''
-
 import psycopg2 as pg2
 import pandas as pd
 from datetime import datetime
 import os
-from dotenv import load_dotenv, error
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -31,8 +16,13 @@ conn = pg2.connect(dbname=os.getenv('DBNAME'),
 # Creates a var for reference to anything pulled from database
 cur = conn.cursor()
 
-# Given a sql file, an output path, and (optional) a name, queries the db and saves the results to the specified file path under the given name,
-#  Or under the name of the sql file given
+'''
+Parameters:
+    sql_in (str): relative filepath to .sql file
+    xlsx_out (str): relative filepath to directory where .xlsx will be stored
+    xlsx_name (str or None): If not None, file named xlsx_name.xlsx
+                             If None, file named same as sql_in
+'''
 def convert_sql_to_xlsx(sql_in, xlsx_out, xlsx_name=None):
 
     # Opens and reads the sql file
@@ -41,20 +31,22 @@ def convert_sql_to_xlsx(sql_in, xlsx_out, xlsx_name=None):
     sqlread.close()
 
     # Executes the query from the sql in the database
-    try:
-        cur.execute(sqlfile)
-    except:
-        print(error)
+    cur.execute(sqlfile)
 
-    
+    # Pandas reads the query
     df = pd.read_sql_query(sqlfile, conn)
+
+    # Sets the name (if not given explicitly)
     if xlsx_name == None:
-        xlsx_name = sql_in[:-3]
-
+        # Splits up the file name from the file path
+        string_manip = sql_in.split('/')
+        # Grabs the file name indice
+        string_manip = string_manip[-1]
+        # Grabs the file name out of a list into a string, removing the file extension
+        xlsx_name = string_manip[:-4]
+    
     df.to_excel(f'{xlsx_out}/{xlsx_name}.xlsx', index=False)
-#conn.commit()
 
 
-
-convert_sql_to_xlsx('sql_queries/vacation_hour.sql','data','test')
+convert_sql_to_xlsx('sql_queries/vacation_hour.sql','data')
 conn.close()
