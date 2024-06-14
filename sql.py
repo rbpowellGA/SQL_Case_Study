@@ -63,8 +63,8 @@ def convert_sql_to_xlsx_from_cli():
 
     # Specifies options that conflict with one another, in this case verbose and quiet
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-v", "--verbose", action="store_true", help="Option for if you know what will happen already")
-    group.add_argument("-q", "--quiet", action="store_true", help="Option for more explicit answer")
+    group.add_argument("-v", "--verbose", action="store_true", help="Option for more explicit answer")
+    group.add_argument("-q", "--quiet", action="store_true", help="Option for if you already have an understanding of the program's full function")
 
     # Our two variable arguements
     parser.add_argument("-s", type=str, help="The directory to pull sql files from")  # Arguements
@@ -99,4 +99,3 @@ if __name__ == '__main__':
     convert_sql_to_xlsx_from_cli()
     #Closes the db connection
     conn.close()
-    pass
