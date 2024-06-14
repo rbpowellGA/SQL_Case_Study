@@ -22,7 +22,14 @@ options:
   -s S           The directory to pull sql files from
   -x X           The directory to store xlsx files in
 ```
-
+For example, if given the command:
+``` bash
+python sql.py -v -s sql_queries -x data
+```
+The output would appear as:
+``` bash
+sql_queries sql files have been saved as .xlsx in the directory data
+```
 ## Calling for a single file conversion
 Either inside the sql.py or imported into another file, the convert_sql_to_xlsx_from_cli() will take in
 ``` python
