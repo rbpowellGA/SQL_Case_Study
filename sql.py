@@ -78,7 +78,7 @@ def convert_sql_to_xlsx_from_cli():
     if args.quiet:  # If quiet flag is present, give the answer only
         print("Data saved")
     elif args.verbose:  # If verbose is present, give more descript answer
-        print(f"{args.s} .sql files have been saved as .xlsx in the directory {args.x}")
+        print(f"{args.s} directories .sql file results have been saved as .xlsx type in the directory {args.x}")
     else:  # Default format for answering
         print(f"{args.s} saved to {args.x}")
 
