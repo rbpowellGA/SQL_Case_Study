@@ -72,15 +72,15 @@ def convert_sql_to_xlsx_from_cli():
 
     # Parses the arguements given into variables and calls our function
     args = parser.parse_args()  
-    convert_directory_of_queries(args.sql_in_dir, args.xlsx_out_dir)
+    convert_directory_of_queries(args.s, args.x)
 
     # Checking for our verbose and quiet flags
     if args.quiet:  # If quiet flag is present, give the answer only
         print("Data saved")
     elif args.verbose:  # If verbose is present, give more descript answer
-        print(f"{args.sql_in_dir} sql files have been saved as .xlsx in the directory {args.xlsx_out_dir}")
+        print(f"{args.s} sql files have been saved as .xlsx in the directory {args.x}")
     else:  # Default format for answering
-        print(f"{args.sql_in_dir} saved to {args.xlsx_out_dir}")
+        print(f"{args.s} saved to {args.x}")
 
 # Runs cli if running the file directly
 if __name__ == '__main__':
