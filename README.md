@@ -18,7 +18,7 @@ By default, the sql.py program will be listening for help, verbose, quiet, and t
 options:
   -h, --help     show this help message and exit
   -v, --verbose  Option for more explicit answer
-  -q, --quiet    Option for if you already have an understanding of the program's full function
+  -q, --quiet    Option for if you already have an understanding of the programs full function
   -s S           The directory to pull sql files from
   -x X           The directory to store xlsx files in
 ```
@@ -29,8 +29,8 @@ Either inside the sql.py or imported into another file, the convert_sql_to_xlsx_
 Parameters:
     sql_in (str): relative filepath to .sql file
     xlsx_out (str): relative filepath to directory where .xlsx will be stored
-    xlsx_name (str or None): If not None, file named xlsx_name.xlsx
-                             If None, file named same as sql_in
+    xlsx_name (str or None): If not given a name, file name will be same as .sql file as a .xlsx
+                             If name is given, file will be named as xlsx_name.xlsx
 ```
 
 ## Importing a function elsewhere for conversion of a .sql file directory into .xlsx files
